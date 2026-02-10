@@ -53,7 +53,7 @@
         }
 
         h1 {
-            font-size: 3.2rem; 
+            font-size: 3.2rem;
             letter-spacing: 4px;
             margin: 10px 0;
             color: #fff;
@@ -62,7 +62,7 @@
 
         .hacker {
             color: #c1272d;
-            font-size: 1.8rem; 
+            font-size: 1.8rem;
             margin-bottom: 20px;
         }
 
@@ -76,7 +76,6 @@
 
         .discord-url {
             display: block;
-            text-decoration: none;
             color: #fff;
             font-size: 1.8rem; 
             letter-spacing: 1px;
@@ -86,7 +85,7 @@
 
         .footer {
             margin-top: 35px;
-            font-size: 14px; 
+            font-size: 14px;
             color: #333;
             letter-spacing: 2px;
         }
@@ -96,7 +95,7 @@
 
     <div class="clickable-overlay"></div>
 
-    <audio id="bgMusic" loop>
+    <audio id="bgMusic" preload="auto">
         <source src="https://files.catbox.moe/l8t4cf.wav" type="audio/wav">
     </audio>
 
@@ -122,10 +121,19 @@
         var audio = document.getElementById("bgMusic");
         var musicStarted = false;
 
+        
+        audio.onended = function() {
+            audio.currentTime = 0;
+            audio.play();
+        };
+
         function handleInteraction() {
             if (!musicStarted) {
-                audio.play().catch(function(e) {});
-                musicStarted = true;
+                audio.play().then(() => {
+                    musicStarted = true;
+                }).catch(function(e) {
+                    console.log("Müzik yükleniyor...");
+                });
             }
             window.open("https://discord.gg/XQ5QdYzn8d", "_blank");
         }
